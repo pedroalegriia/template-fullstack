@@ -1,0 +1,25 @@
+// Task Manager - Variables
+$tm-spacing-unit: 0.5rem;
+$tm-radius: 6px;
+$tm-radius-card: 8px;
+$tm-border: 1px solid #e2e8f0;
+$tm-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+$tm-shadow-card: 0 1px 2px rgba(0, 0, 0, 0.06);
+$tm-shadow-card-hover: 0 2px 8px rgba(0, 0, 0, 0.1);
+$tm-color-primary: #2563eb;
+$tm-color-primary-hover: #1d4ed8;
+$tm-color-danger: #dc2626;
+$tm-color-danger-hover: #b91c1c;
+$tm-color-success: #16a34a;
+$tm-color-text: #1e293b;
+$tm-color-text-muted: #64748b;
+$tm-color-bg: #f8fafc;
+$tm-color-bg-board: #f1f5f9;
+$tm-color-card: #ffffff;
+$tm-font-family: system-ui, -apple-system, sans-serif;
+
+// Kanban
+$kanban-column-min-width: 280px;
+$kanban-column-header-pendiente: #fef3c7;
+$kanban-column-header-en_progreso: #dbeafe;
+$kanban-column-header-completada: #d1fae5;

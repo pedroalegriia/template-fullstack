@@ -1,0 +1,368 @@
+@use 'variables' as *;
+
+.task-manager {
+  font-family: $tm-font-family;
+  color: $tm-color-text;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 1rem;
+  min-height: 100vh;
+  background: $tm-color-bg-board;
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  &__header {
+    margin-bottom: 1rem;
+    max-width: 42rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  &__title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem;
+  }
+
+  &__subtitle {
+    font-size: 0.875rem;
+    color: $tm-color-text-muted;
+    margin: 0;
+  }
+
+  &__message {
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 42rem;
+    border-radius: $tm-radius;
+    font-size: 0.875rem;
+
+    &--error {
+      background-color: #fef2f2;
+      color: $tm-color-danger;
+      border: 1px solid #fecaca;
+    }
+
+    &--success {
+      background-color: #f0fdf4;
+      color: $tm-color-success;
+      border: 1px solid #bbf7d0;
+    }
+
+    &--hidden {
+      display: none;
+    }
+  }
+
+  &__loading {
+    text-align: center;
+    padding: 2rem;
+    color: $tm-color-text-muted;
+  }
+
+  &__empty {
+    text-align: center;
+    padding: 2rem;
+    color: $tm-color-text-muted;
+    background: $tm-color-bg;
+    border-radius: $tm-radius;
+  }
+}
+
+.task-form {
+  background: $tm-color-card;
+  border: $tm-border;
+  border-radius: $tm-radius;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: $tm-shadow;
+  max-width: 42rem;
+
+  &--compact {
+    .task-form__row {
+      display: flex;
+      align-items: flex-end;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .task-form__row + .task-form__row {
+      margin-top: 0.75rem;
+    }
+    .task-form__group {
+      margin-bottom: 0;
+    }
+    .task-form__group--flex {
+      flex: 1;
+      min-width: 180px;
+    }
+    .task-form__group--narrow {
+      flex: 0 0 140px;
+    }
+    .task-form__actions--inline {
+      margin-top: 0;
+      flex-shrink: 0;
+    }
+    .task-form__textarea--short {
+      min-height: 2.5rem;
+    }
+  }
+
+  &__group {
+    margin-bottom: 1rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+    color: $tm-color-text;
+  }
+
+  &__input,
+  &__select {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    border: $tm-border;
+    border-radius: $tm-radius;
+    background: $tm-color-card;
+    color: $tm-color-text;
+
+    &:focus {
+      outline: none;
+      border-color: $tm-color-primary;
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+    }
+  }
+
+  &__textarea {
+    min-height: 4rem;
+    resize: vertical;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+  }
+
+  &__submit {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border: none;
+    border-radius: $tm-radius;
+    cursor: pointer;
+    background: $tm-color-primary;
+    color: white;
+
+    &:hover {
+      background: $tm-color-primary-hover;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  &__cancel {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    background: $tm-color-bg;
+    border: $tm-border;
+    border-radius: $tm-radius;
+    cursor: pointer;
+    color: $tm-color-text;
+
+    &:hover {
+      background: #e2e8f0;
+    }
+  }
+}
+
+// --- Kanban (estilo Jira) ---
+
+.kanban {
+  &__board {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    min-height: 400px;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+  }
+
+  &__column {
+    flex: 0 0 $kanban-column-min-width;
+    min-width: $kanban-column-min-width;
+    max-width: 320px;
+    background: $tm-color-card;
+    border-radius: $tm-radius-card;
+    box-shadow: $tm-shadow;
+    border: $tm-border;
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 280px);
+    transition: background-color 0.15s ease, box-shadow 0.15s ease;
+
+    &--drag-over {
+      background: #e0f2fe;
+      box-shadow: 0 0 0 2px #0ea5e9;
+    }
+  }
+
+  &__column-header {
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    border-radius: $tm-radius-card $tm-radius-card 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+
+    &--pendiente {
+      background: $kanban-column-header-pendiente;
+      color: #92400e;
+    }
+    &--en_progreso {
+      background: $kanban-column-header-en_progreso;
+      color: #1e40af;
+    }
+    &--completada {
+      background: $kanban-column-header-completada;
+      color: #065f46;
+    }
+  }
+
+  &__column-title {
+    text-transform: capitalize;
+  }
+
+  &__column-count {
+    background: rgba(0, 0, 0, 0.1);
+    padding: 0.15rem 0.5rem;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  &__cards {
+    padding: 0.5rem;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 80px;
+  }
+
+  &__card {
+    background: $tm-color-card;
+    border: $tm-border;
+    border-radius: $tm-radius-card;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    box-shadow: $tm-shadow-card;
+    cursor: grab;
+    transition: box-shadow 0.15s ease;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &:hover {
+      box-shadow: $tm-shadow-card-hover;
+    }
+
+    &:active {
+      cursor: grabbing;
+    }
+
+    &--dragging {
+      opacity: 0.85;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      cursor: grabbing;
+    }
+  }
+
+  &__card-body {
+    margin-bottom: 0.5rem;
+  }
+
+  &__card-title {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem;
+    line-height: 1.3;
+  }
+
+  &__card-description {
+    font-size: 0.8125rem;
+    color: $tm-color-text-muted;
+    margin: 0;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  &__card-actions {
+    display: flex;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+    padding-top: 0.5rem;
+    border-top: 1px solid #f1f5f9;
+  }
+
+  &__card-btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background: $tm-color-bg;
+    color: $tm-color-text;
+
+    &:hover {
+      background: #e2e8f0;
+    }
+
+    &--edit {
+      background: #eff6ff;
+      color: $tm-color-primary;
+
+      &:hover {
+        background: #dbeafe;
+      }
+    }
+
+    &--delete {
+      background: #fef2f2;
+      color: $tm-color-danger;
+
+      &:hover {
+        background: #fee2e2;
+      }
+    }
+  }
+}
